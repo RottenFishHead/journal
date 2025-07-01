@@ -1,0 +1,92 @@
+{% extends 'todo/base.html' %}
+{% load tailwind_filters %}
+
+{% block content %}
+ 
+  <h2 class="text-xl font-bold mb-4">{% if form.instance.pk %}Edit Book{% else %}Add Book{% endif %}</h2>
+  <button type="button" id="openAuthorModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-2 border border-blue-700 rounded ">Add Author</button>
+  <form method="post" class="bg-white p-6 rounded shadow max-w-lg">
+    {% csrf_token %}
+    <div>
+      {{ form|crispy }}
+     
+    </div>
+    <div class="mt-4 flex gap-2">
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+      <a href="{% url 'todoapp:books_list' %}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancel</a>
+    </div>
+  </form>
+
+  <!-- Author Modal -->
+  <div id="authorModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded shadow-lg p-6 w-full max-w-md relative">
+      <button id="closeAuthorModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+      <h3 class="text-lg font-bold mb-4">Add Author</h3>
+      <form id="authorForm">
+        {% csrf_token %}
+        <div class="mb-2">
+          <label class="block text-sm font-medium">First Name</label>
+          <input type="text" name="first_name" class="w-full border rounded px-2 py-1" required>
+        </div>
+        <div class="mb-2">
+          <label class="block text-sm font-medium">Last Name</label>
+          <input type="text" name="last_name" class="w-full border rounded px-2 py-1" required>
+        </div>
+        <div class="mb-2">
+          <label class="block text-sm font-medium">Email</label>
+          <input type="email" name="email" class="w-full border rounded px-2 py-1" required>
+        </div>
+        <div class="mb-2">
+          <label class="block text-sm font-medium">Bio</label>
+          <textarea name="bio" class="w-full border rounded px-2 py-1"></textarea>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-2">Add Author</button>
+      </form>
+      <div id="authorError" class="text-red-600 mt-2 hidden"></div>
+    </div>
+  </div>
+
+  <script>
+    // Modal open/close
+    document.getElementById('openAuthorModal').onclick = function() {
+      document.getElementById('authorModal').classList.remove('hidden');
+    };
+    document.getElementById('closeAuthorModal').onclick = function() {
+      document.getElementById('authorModal').classList.add('hidden');
+    };
+
+    // AJAX Author Add
+    document.getElementById('authorForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+      try {
+        const response = await fetch("{% url 'todoapp:author_create_ajax' %}", {
+          method: "POST",
+          headers: { "X-CSRFToken": csrfToken },
+          body: data,
+        });
+        const result = await response.json();
+        if (result.success) {
+          // Add new author to the select dropdown
+          const authorSelect = document.getElementById("id_author");
+          const option = document.createElement("option");
+          option.value = result.author.id;
+          option.text = result.author.name;
+          option.selected = true;
+          authorSelect.appendChild(option);
+          document.getElementById('authorModal').classList.add('hidden');
+          form.reset();
+          document.getElementById('authorError').classList.add('hidden');
+        } else {
+          document.getElementById('authorError').textContent = result.error || "Error adding author.";
+          document.getElementById('authorError').classList.remove('hidden');
+        }
+      } catch {
+        document.getElementById('authorError').textContent = "Error adding author.";
+        document.getElementById('authorError').classList.remove('hidden');
+      }
+    };
+  </script>
+{% endblock %}

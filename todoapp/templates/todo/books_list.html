@@ -1,0 +1,37 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl font-bold">Books</h2>
+    <a href="{% url 'todoapp:books_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Book</a>
+  </div>
+  <table class="min-w-full bg-white rounded shadow">
+    <thead>
+      <tr>
+        <th class="py-2 px-4 border-b">Title</th>
+        <th class="py-2 px-4 border-b">Author</th>
+        <th class="py-2 px-4 border-b">ISBN</th>
+        <th class="py-2 px-4 border-b">Publisher</th>
+        <th class="py-2 px-4 border-b">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+      <tr>
+        <td class="py-2 px-4 border-b font-bold">{{ book.title }}</td>
+        <td class="py-2 px-4 border-b">{{ book.author.first_name }} {{ book.author.last_name }}</td>
+        <td class="py-2 px-4 border-b">{{ book.isbn }}</td>
+        <td class="py-2 px-4 border-b">{{ book.publisher }}</td>
+        <td class="py-2 px-4 border-b">
+          <a href="{% url 'todoapp:books_edit' book.pk %}" class="text-blue-600 hover:underline mr-2">Edit</a>
+          <a href="{% url 'todoapp:books_delete' book.pk %}" class="text-red-600 hover:underline">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="py-4 text-center text-gray-500">No books found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

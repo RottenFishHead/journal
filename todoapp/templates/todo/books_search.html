@@ -1,0 +1,54 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+  <div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Search Books</h2>
+    <form method="get" class="mb-6 flex gap-2">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search by title, author, ISBN, or publisher"
+             class="border rounded px-3 py-2 w-full" autofocus>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Search</button>
+    </form>
+
+    {% if page_obj %}
+      <table class="min-w-full mb-4">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b">Title</th>
+            <th class="py-2 px-4 border-b">Author</th>
+            <th class="py-2 px-4 border-b">ISBN</th>
+            <th class="py-2 px-4 border-b">Publisher</th>
+            <th class="py-2 px-4 border-b">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in page_obj %}
+          <tr>
+            <td class="py-2 px-4 border-b">{{ book.title }}</td>
+            <td class="py-2 px-4 border-b">{{ book.author.first_name }} {{ book.author.last_name }}</td>
+            <td class="py-2 px-4 border-b">{{ book.isbn }}</td>
+            <td class="py-2 px-4 border-b">{{ book.publisher }}</td>
+            <td class="py-2 px-4 border-b">{{ book.date_created|date:"Y-m-d" }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="py-4 text-center text-gray-500">No books found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Pagination controls -->
+      <div class="flex justify-center gap-2">
+        {% if page_obj.has_previous %}
+          <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">&laquo; Prev</a>
+        {% endif %}
+        <span class="px-3 py-1">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?q={{ query }}&page={{ page_obj.next_page_number }}" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next &raquo;</a>
+        {% endif %}
+      </div>
+    {% elif query %}
+      <p class="text-gray-500">No books found for your search.</p>
+    {% endif %}
+  </div>
+{% endblock %}
