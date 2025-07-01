@@ -1,0 +1,74 @@
+{% extends 'todo/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+  <div class="max-w-4xl mx-auto bg-white p-8 rounded shadow">
+    <h2 class="text-2xl font-bold mb-2">{{ research.name }}</h2>
+    <p class="mb-2"><strong>Topic:</strong> {{ research.topic }}</p>
+    <p class="mb-4"><strong>Notes:</strong> {{ research.notes }}</p>
+    <hr class="my-4">
+
+    <!-- Description input area (separated) -->
+    <div class="mb-8">
+      <h3 class="text-lg font-semibold mb-2">Add or Edit Description</h3>
+      <form method="post" action="">
+        {% csrf_token %}
+        {% if research_form %}
+          {{ research_form.notes|as_crispy_field }}
+          <button type="submit" name="edit_description" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 mt-2">Save Description</button>
+        {% else %}
+          <textarea class="w-full border rounded px-3 py-2" disabled>{{ research.notes }}</textarea>
+        {% endif %}
+      </form>
+       <button type="submit" name="edit_description" href="{% url 'research:research_edit' research.pk %}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-green-700">Edit Topic</a>
+    </div>
+    <hr>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Sources Column -->
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Sources</h3>
+        <ul class="mb-4 space-y-2">
+          {% for source in research.sources.all %}
+            <li class="border-b pb-2">
+              <a href="{{ source.url }}" class="text-blue-700 hover:underline font-medium" target="_blank">{{ source.title }}</a>
+              <div class="text-gray-500 text-sm">{{ source.description }}</div>
+            </li>
+          {% empty %}
+            <li>No sources added.</li>
+          {% endfor %}
+        </ul>
+        <form method="post" class="mb-6">
+          {% csrf_token %}
+          {{ source_form.title|as_crispy_field }}
+          {{ source_form.url|as_crispy_field }}
+          {{ source_form.description|as_crispy_field }}
+          <button type="submit" name="add_source" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Add Source</button>
+        </form>
+      </div>
+
+      <!-- Pictures Column -->
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Pictures</h3>
+        <div class="flex flex-wrap gap-4 mb-4">
+          {% for pic in research.pics.all %}
+            <div>
+              <img src="{{ pic.image.url }}" alt="{{ pic.caption }}" class="w-32 h-32 object-cover rounded mb-1 border">
+              <div class="text-sm text-gray-700">{{ pic.caption }}</div>
+            </div>
+          {% empty %}
+            <div>No pictures added.</div>
+          {% endfor %}
+        </div>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ pics_form.image|as_crispy_field }}
+          {{ pics_form.caption|as_crispy_field }}
+          <button type="submit" name="add_pic" class="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700">Add Picture</button>
+        </form>
+      </div>
+    </div>
+    <a href="{% url 'research:research_list' %}" class="inline-block mt-8 bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Back to List</a>
+  </div>
+{% endblock %}

@@ -1,10 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Task, Entry, Author, Books
+from research.models import Research
 from django.http import JsonResponse
 from .forms import TaskForm, BooksForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
+
+@login_required
+
+def homepage_view(request):
+    tasks = Task.objects.filter(user=request.user)
+    books = Books.objects.all()
+    research = Research.objects.all()
+
+    context = {
+        'tasks': tasks,
+        'books': books,
+        'research': research,
+    }
+    return render(request, 'todo/index.html', context)
 
 @login_required
 def task_list(request):

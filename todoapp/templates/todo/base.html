@@ -1,47 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load static %}
 <head>
   <meta charset="UTF-8">
-  <title>To-Do App</title>
+  <title>To-Do App - Jord R.</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+  <style>
+    .norse-font {
+      font-family: 'UnifrakturCook', cursive;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen font-sans text-gray-800">
- <nav class="bg-blue-600 p-4 text-white shadow">
+<body class="bg-gray-100 min-h-screen font-sans text-gray-800" style="background-image: url('{% static 'images/Ancient-Forest.jpg' %}'); background-size: cover; background-attachment: fixed;">
+
+  
+<!-- Navigation Bar -->
+<nav class="bg-gray-900 bg-opacity-90 p-4 text-white shadow-md">
   <div class="container mx-auto flex items-center justify-between">
-    <div class="flex items-center space-x-4">
-      <h1 class="text-2xl font-bold flex items-center gap-2">
-         Jord R.
-      </h1>
-      <a href="{% url 'todoapp:task_list' %}" class="hover:underline text-white px-2">Tasks</a>
-      <a href="{% url 'todoapp:task_create' %}" class="hover:underline text-white px-2">Add Task</a>
+    <div class="flex items-center space-x-6">
+      <h1 class="text-3xl font-bold norse-font text-yellow-200">Jord R.</h1>
+      <a href="{% url 'todoapp:task_list' %}" class="hover:underline px-3">Tasks</a>
+      <a href="{% url 'todoapp:task_create' %}" class="hover:underline px-3">Add Task</a>
+
       <!-- Books Dropdown -->
       <div class="relative group">
-        <button class="hover:underline text-white px-2 flex items-center gap-1 focus:outline-none">
+        <button class="hover:underline px-3 flex items-center gap-1 focus:outline-none">
           Books
-          <svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
-        <div class="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-20">
-          <a href="{% url 'todoapp:books_list' %}" class="block px-4 py-2 hover:bg-blue-100">All Books</a>
-          <a href="{% url 'todoapp:books_by_author' %}" class="block px-4 py-2 hover:bg-blue-100">Books by Author</a>
-          <a href="{% url 'todoapp:books_create' %}" class="block px-4 py-2 hover:bg-blue-100">Add Book</a>
-          <a href="{% url 'todoapp:books_search' %}" class="block px-4 py-2 hover:bg-blue-100">Search Books</a>
+        <div class="absolute left-0 mt-2 w-48 bg-white text-gray-900 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-30">
+          <a href="{% url 'todoapp:books_list' %}" class="block px-4 py-2 hover:bg-gray-100">All Books</a>
+          <a href="{% url 'todoapp:books_by_author' %}" class="block px-4 py-2 hover:bg-gray-100">Books by Author</a>
+          <a href="{% url 'todoapp:books_create' %}" class="block px-4 py-2 hover:bg-gray-100">Add Book</a>
+          <a href="{% url 'todoapp:books_search' %}" class="block px-4 py-2 hover:bg-gray-100">Search Books</a>
+        </div>
+      </div>
+
+      <!-- Research Dropdown -->
+      <div class="relative group">
+        <button class="hover:underline px-3 flex items-center gap-1 focus:outline-none">
+          Research
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="absolute left-0 mt-2 w-48 bg-white text-gray-900 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-30">
+          <a href="{% url 'research:research_list' %}" class="block px-4 py-2 hover:bg-gray-100">All Research</a>
+          <a href="{% url 'research:research_create' %}" class="block px-4 py-2 hover:bg-gray-100">Add Research</a>
         </div>
       </div>
     </div>
+
     <div>
       {% if user.is_authenticated %}
-        <span class="mr-4">Hello, {{ user.username }}!</span>
-        <a href="{% url 'admin:logout' %}" class="bg-white text-blue-600 px-3 py-1 rounded hover:bg-blue-100">Logout</a>
+        <span class="mr-4">Hello, <strong>{{ user.username }}</strong>!</span>
+        <a href="{% url 'admin:logout' %}" class="bg-yellow-300 text-gray-900 px-4 py-1 rounded hover:bg-yellow-400">Logout</a>
       {% else %}
-        <a href="{% url 'admin:login' %}" class="bg-white text-blue-600 px-3 py-1 rounded hover:bg-blue-100">Login</a>
+        <a href="{% url 'admin:login' %}" class="bg-yellow-300 text-gray-900 px-4 py-1 rounded hover:bg-yellow-400">Login</a>
       {% endif %}
     </div>
   </div>
 </nav>
-  <main class="container mx-auto p-6">
-    {% block content %}{% endblock %}
-  </main>
+
+<!-- Hero Banner -->
+<section
+  class="bg-cover bg-center h-64 flex items-center justify-center text-center text-white">
+  <h2 class="text-5xl norse-font tracking-wide mb-4 text-center">All Things Jord</h2>
+  
+</section>
+
+<!-- Main Content -->
+<main class="container mx-auto bg-white bg-opacity-90 rounded-xl shadow-xl p-6 my-10">
+  {% block content %}{% endblock %}
+</main>
+
+<!-- Footer -->
+<footer class="text-center text-gray-300 bg-black bg-opacity-80 py-4">
+  &copy; {{ now|date:"Y" }} Jord R. - Forged in the fires of Midgard
+</footer>
+
 </body>
 </html>

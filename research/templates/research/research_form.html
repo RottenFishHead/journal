@@ -1,0 +1,29 @@
+{% extends 'todo/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block nav_links %}
+  <a href="{% url 'research:research_list' %}" class="hover:underline">Research</a>
+{% endblock %}
+{% block content %}
+  <div class="max-w-lg mx-auto bg-white p-8 rounded shadow-lg mt-8">
+    <h2 class="text-2xl font-bold mb-6 text-blue-700 flex items-center gap-2">
+      <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Add New Research
+    </h2>
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+      <div class="space-y-4">
+        {{ form.name|as_crispy_field }}
+        {{ form.topic|as_crispy_field }}
+        {{ form.notes|as_crispy_field }}
+      </div>
+      <div class="flex gap-4 mt-6">
+        <button type="submit" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-semibold transition">Save</button>
+        <a href="{% url 'research:research_list' %}" class="flex-1 text-center bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 font-semibold transition">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,19 @@
+<section class="my-12">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">🔬 Research</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for item in research %}
+      <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition-all duration-200">
+        <div class="mb-2">
+          <h3 class="font-bold text-lg">{{ item.title }}</h3>
+          <p class="text-sm text-gray-600">{{ item.summary|truncatewords:20 }}</p>
+        </div>
+        <div class="mt-4 flex justify-between text-sm">
+          <a href="{% url 'research:research_edit' item.pk %}" class="text-blue-600 hover:underline">Edit</a>
+          <a href="{% url 'research:research_delete' item.pk %}" class="text-red-500 hover:underline">Delete</a>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-gray-600">No research items yet.</p>
+    {% endfor %}
+  </div>
+</section>
