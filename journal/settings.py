@@ -15,7 +15,11 @@ SECRET_KEY = '8aa3fde69d7e7b35'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*' ]
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://jord.fly.dev',
+]
 
 
 # Application definition
