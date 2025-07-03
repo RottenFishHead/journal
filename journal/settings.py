@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'journal.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='',
+        default='postgres://jord:df61b22cac251362@jord-db.flycast:5432/jord?sslmode=disable',
         conn_max_age=600,
         conn_health_checks=True,
     )
