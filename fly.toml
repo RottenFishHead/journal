@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for journal-delicate-voice-551 on 2025-07-02T11:29:21-07:00
+# fly.toml app configuration file generated for jord on 2025-07-02T12:50:07-07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'journal-delicate-voice-551'
+app = 'jord'
 primary_region = 'lax'
 console_command = '/code/manage.py shell'
 
