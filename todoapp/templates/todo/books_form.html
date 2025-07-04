@@ -1,10 +1,9 @@
 {% extends 'todo/base.html' %}
-
-
+{% load crispy_forms_tags %}
 
 
 {% block title %}
-  {% endblock title}
+  {% endblock title %}
 
 {% block content %}
  
@@ -22,7 +21,7 @@
     </div>
   </form>
 
-  <!-- Author Modal -->
+
   <div id="authorModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded shadow-lg p-6 w-full max-w-md relative">
       <button id="closeAuthorModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
