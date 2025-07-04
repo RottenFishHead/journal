@@ -18,11 +18,15 @@
     <tbody>
       {% for book in books %}
       <tr>
-        <td class="py-2 px-4 border-b font-bold">{{ book.title }}</td>
-        <td class="py-2 px-4 border-b">{{ book.author.first_name }} {{ book.author.last_name }}</td>
-        <td class="py-2 px-4 border-b">{{ book.isbn }}</td>
-        <td class="py-2 px-4 border-b">{{ book.publisher }}</td>
-        <td class="py-2 px-4 border-b">
+        <td class="py-2 px-4 border-b font-bold text-center">
+  <a href="{% url 'todoapp:books_detail' book.pk %}" class="text-blue-600 hover:underline">
+    {{ book.title }}
+  </a>
+</td>
+        <td class="py-2 px-4 border-b text-center">{{ book.author.first_name }} {{ book.author.last_name }}</td>
+        <td class="py-2 px-4 border-b text-center">{{ book.isbn }}</td>
+        <td class="py-2 px-4 border-b text-center">{{ book.publisher }}</td>
+        <td class="py-2 px-4 border-b text-center">
           <a href="{% url 'todoapp:books_edit' book.pk %}" class="text-blue-600 hover:underline mr-2">Edit</a>
           <a href="{% url 'todoapp:books_delete' book.pk %}" class="text-red-600 hover:underline">Delete</a>
         </td>

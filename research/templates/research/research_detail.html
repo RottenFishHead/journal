@@ -1,6 +1,6 @@
 {% extends 'todo/base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
+
 
 
 {% block content %}
@@ -16,7 +16,7 @@
       <form method="post" action="">
         {% csrf_token %}
         {% if research_form %}
-          {{ research_form.notes|as_crispy_field }}
+          {{ form.as_p }}
           <button type="submit" name="edit_description" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 mt-2">Save Description</button>
         {% else %}
           <textarea class="w-full border rounded px-3 py-2" disabled>{{ research.notes }}</textarea>
@@ -41,9 +41,7 @@
         </ul>
         <form method="post" class="mb-6">
           {% csrf_token %}
-          {{ source_form.title|as_crispy_field }}
-          {{ source_form.url|as_crispy_field }}
-          {{ source_form.description|as_crispy_field }}
+          {{ form_source.as_p }}
           <button type="submit" name="add_source" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Add Source</button>
         </form>
       </div>
@@ -63,8 +61,7 @@
         </div>
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          {{ pics_form.image|as_crispy_field }}
-          {{ pics_form.caption|as_crispy_field }}
+          {{form_pic.as_p }}
           <button type="submit" name="add_pic" class="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700">Add Picture</button>
         </form>
       </div>

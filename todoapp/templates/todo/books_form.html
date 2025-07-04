@@ -1,5 +1,10 @@
 {% extends 'todo/base.html' %}
-{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block nav_links %}
+  <a href="{% url 'todoapp:books_list' %}" class="hover:underline">Books</a>
+{% endblock nav_links %}
 
 
 {% block title %}
@@ -12,7 +17,7 @@
   <form method="post" class="bg-white p-6 rounded shadow max-w-lg">
     {% csrf_token %}
     <div>
-      {{ form|crispy }}
+      {{ form.as_p }}
      
     </div>
     <div class="mt-4 flex gap-2">
